@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/bootstrap3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+{{include "head.html"}}
+<div class="row">
+<div class="col-md-3">
+<a href="/addb">添加数据库</a>
+<ul>
+{{range .T.engines}}
+<li>
+<a href="/view?id={{.Id}}">{{.Name}}: {{.Driver}} - {{.DataSource}} </a>
+<a href="#">编辑</a>
+<a href="/del?id={{.Id}}">删除</a>
+</li>
+{{end}}
+</ul>
+<ul>
+{{$id := .T.id}}
+{{range .T.tables}}
+<li><a href="/view?id={{$id}}&tb={{.Name}}">{{.Name}}</a></li>
+{{end}}
+</div>
+<div class="col-md-9">
+<form class="form-inline" role="form">
+<div class="form-group col-md-7">
+<textarea name="sql" class="form-control" rows="3" placeholder="Enter SQL"></textarea>
+<input type="hidden" name="id" value="{{$id}}"/>
+</div>
+<input class="btn btn-default" type="submit" value="执行"/>
+</form>
+<table class="table table-striped table-bordered">
+<tr>
+{{range .T.columns}}
+<td>{{.}}</td>
+{{end}}
+</tr>
+{{range .T.records}}
+<tr>
+	{{range .}}
+	<td>{{.}}</td>
+{{end}}
+</tr>
+{{end}}
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head></head>
+<body>
+<div>
+<div>
+<form method="POST">
+{{XsrfFormHtml}}
+<div>
+名称：<input name="engine.name"/>
+</div>
+<div>
+数据库类型：
+<select name="engine.driver">
+<option value="mysql">mysql</option>
+<option value="mymysql">mymysql</option>
+<option value="postgres">postgres</option>
+<option value="mssql">mssql</option>
+<option value="sqlite3">sqlite3</option>
+</select>
+</div>
+<div>
+数据库连接符：<input name="engine.dataSource"/>
+</div>
+<input type="submit" value="保存"/>
+</form>
+</div>
+<div>
+</div>
+</div>
+</body>
+</html>
