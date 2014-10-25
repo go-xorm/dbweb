@@ -4,11 +4,15 @@ import (
 	"fmt"
 	"sync"
 
-	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/go-xorm/ql"
 	"github.com/go-xorm/xorm"
 	"github.com/go-xweb/xweb"
+
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-xorm/ql"
+	_ "github.com/lib/pq"
 	_ "github.com/lunny/ql/driver"
+	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/ziutek/mymysql/godrv"
 )
 
 var (
