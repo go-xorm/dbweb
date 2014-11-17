@@ -145,5 +145,6 @@ func (c *MainAction) View() error {
 		"records": records,
 		"columns": columns,
 		"id":      id,
+		"sql":     sql,
 	})
 }
