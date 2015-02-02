@@ -1,5 +1,8 @@
 # Xorm Admin
 
+** Notice ** 
+This project is deprecated. Please visit [dbweb](github.com/lunny/dbweb).
+
 Admin is a web based database admin tool like phpmyadmin. It' written via 
 [xorm](github.com/go-xorm/xorm), [xweb](github.com/go-xweb/xweb), [ql](github.com/lunny/ql/driver).
 
