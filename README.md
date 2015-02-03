@@ -12,8 +12,8 @@ DBWeb is a web based database admin tool like phpmyadmin. It' written via
 # Installation
 
 ```Go
-go get github.com/lunny/dbweb
-go install github.com/lunny/dbweb
+go get github.com/go-xorm/dbweb
+go install github.com/go-xorm/dbweb
 ```
 
 # Run
