@@ -1,0 +1,20 @@
+<div class="col-md-2">
+	<a href="/addb">添加数据库</a>
+	<ul>
+	{{range .engines}}
+	<li>
+	<a href="/view?id={{.Id}}">{{.Name}}</a>
+	<a href="#" class="btn btn-warning btn-xs">编辑</a>
+	<a href="/del?id={{.Id}}" class="btn btn-danger btn-xs">删除</a>
+	</li>
+	{{end}}
+	</ul>
+
+	<div>所有表</div>
+	<ul>
+		{{$id := .id}}
+		{{range .tables}}
+		<li><a href="/view?id={{$id}}&tb={{.Name}}">{{.Name}}</a></li>
+		{{end}}
+	</ul>
+</div>

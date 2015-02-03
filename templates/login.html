@@ -1,0 +1,58 @@
+{{template "base/base.html" .}}
+
+{{define "head"}}
+{{end}}
+
+{{define "nav"}}
+{{template "base/nav.html" .}}
+{{end}}
+
+{{define "left"}}
+{{end}}
+
+{{define "body"}}
+<div class="text-center">
+<div class="col-md-4 col-md-offset-4">
+	{{if .flash.AuthError}}
+        <div class="alert alert-success">
+        	<p>{{.flash.AuthError}}</p>
+    	</div>
+    {{end}}
+<form method="POST" role="form" action="/login"{{if .Error}} class="has-error"{{end}}>
+{{.XsrfFormHtml}}
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="user" id="inputEmail3" placeholder="请输入用户名">
+    </div>
+  </div>
+  <div style="margin-top:30px;">
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+    <div class="col-sm-10">
+      <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="请输入密码">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> 记住密码
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">登陆&nbsp; <span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+{{end}}
+
+{{define "footer"}}
+{{template "base/footer.html" .}}
+{{end}}

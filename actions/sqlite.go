@@ -1,6 +1,6 @@
 // +sqlite3
 
-package main
+package actions
 
 import (
 	_ "github.com/mattn/go-sqlite3"

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/static/bootstrap3/css/bootstrap.min.css">
+{{template "head" .}}
+</head>
+<body>
+
+{{template "nav" .}}
+
+<div class="container-fluid">
+	<div class="row">
+		{{template "left" .}}
+
+		{{template "body" .}}
+	</div>
+</div>
+
+{{template "footer" .}}
+</body>
+</html>

@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head></head>
-<body>
-<div>
+{{template "base/base.html" .}}
+{{template "base/common.html" .}}
+
+{{define "body"}}
 <div>
 <form method="POST">
-{{XsrfFormHtml}}
+{{.XsrfFormHtml}}
 <div>
-名称：<input name="engine.name"/>
+名称：<input name="name"/>
 </div>
 <div>
 数据库类型：
-<select name="engine.driver">
+<select name="driver">
 <option value="mysql">mysql</option>
 <option value="mymysql">mymysql</option>
 <option value="postgres">postgres</option>
@@ -20,13 +19,11 @@
 </select>
 </div>
 <div>
-数据库连接符：<input name="engine.dataSource"/>
+数据库连接符：<input name="data_source"/>
 </div>
 <input type="submit" value="保存"/>
 </form>
 </div>
 <div>
 </div>
-</div>
-</body>
-</html>
+{{end}}

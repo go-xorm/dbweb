@@ -1,28 +1,25 @@
-# Xorm Admin
+# DBWeb
 
-** Notice ** 
-This project is deprecated. Please visit [dbweb](github.com/lunny/dbweb).
-
-Admin is a web based database admin tool like phpmyadmin. It' written via 
-[xorm](github.com/go-xorm/xorm), [xweb](github.com/go-xweb/xweb), [ql](github.com/lunny/ql/driver).
+DBWeb is a web based database admin tool like phpmyadmin. It' written via 
+[xorm](http://github.com/go-xorm/xorm), [tango](http://github.com/lunny/tango), [nodb](http://github.com/lunny/nodb).
 
 # Database Supports
 
 * mysql
 * postgres
-* sqlite3
+* sqlite3 : build tag -sqlite3
 
 # Installation
 
 ```Go
-go get github.com/go-xorm/admin
-go install github.com/go-xorm/admin
+go get github.com/lunny/dbweb
+go install github.com/lunny/dbweb
 ```
 
 # Run
 
 ```Shell
-admin
+dbweb
 ```
 
 Then visit http://localhost:8989/
