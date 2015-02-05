@@ -11,6 +11,7 @@ import (
 )
 
 type DelRecord struct {
+	Base
 	tango.Req
 	tango.Ctx
 	middlewares.Auther

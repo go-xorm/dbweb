@@ -1,0 +1,37 @@
+{{template "base/base.html" .}}
+{{template "base/common_noleft.html" .}}
+
+{{define "body"}}
+<div class="text-center">
+<form method="POST">
+{{.XsrfFormHtml}}
+{{if .flash.changeSuccess}}
+	<div class="text-center">
+	<p class="bg-success">
+	{{.flash.changeSuccess}}
+	</p>
+	</div>
+{{end}}
+{{if .flash.otherError}}
+	<div class="text-center">
+	<p class="bg-error">
+	{{.flash.otherError}}
+	</p>
+	</div>
+{{end}}
+<div>
+Old Password：<input name="old_pass" type="password"{{if .flash.oldError}} class=".has-error"{{end}}/>{{if .flash.oldError}} {{.flash.oldError}}{{end}}
+</div>
+<div>
+New Password：<input name="new_pass" type="password"/>
+</div>
+<div>
+Cofirm Password：<input name="cfm_pass" type="password"{{if .flash.cfmError}} class=".has-error"{{end}}/>{{if .flash.cfmError}} {{.flash.cfmError}}{{end}}
+</div>
+<div>
+<input type="submit" value="修改" class="btn btn-primary">&nbsp; 
+<a href="/" class="btn btn-default">取消</a>
+</div>
+</form>
+</div>
+{{end}}

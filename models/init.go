@@ -1,12 +1,16 @@
 package models
 
 import (
+	"errors"
+
 	"github.com/lunny/nodb"
 	"github.com/lunny/nodb/config"
 )
 
 var (
-	Db *nodb.DB
+	Db            *nodb.DB
+	ErrNotExist   = errors.New("not exist")
+	ErrParamError = errors.New("param error")
 )
 
 func Init() error {
@@ -25,5 +29,15 @@ func Init() error {
 	if err != nil {
 		return err
 	}
-	return nil
+
+	// add admin
+	_, err = GetUserByName("admin")
+	if err == ErrNotExist {
+		err = AddUser(&User{
+			Name:     "admin",
+			Password: "admin",
+		})
+	}
+
+	return err
 }

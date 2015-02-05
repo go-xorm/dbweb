@@ -7,13 +7,12 @@ import (
 	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 	"github.com/go-xorm/xorm"
-	"github.com/lunny/tango"
 	"github.com/tango-contrib/renders"
 )
 
 type View struct {
-	tango.Req
-	renders.Renderer
+	RenderBase
+
 	middlewares.Auther
 }
 

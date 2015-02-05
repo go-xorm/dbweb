@@ -5,13 +5,12 @@ import (
 
 	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
-	"github.com/lunny/tango"
 	"github.com/tango-contrib/renders"
 )
 
 type Del struct {
-	renders.Renderer
-	tango.Req
+	RenderBase
+
 	middlewares.Auther
 }
 

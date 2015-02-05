@@ -18,7 +18,7 @@ type Engine struct {
 	DataSource string `binding:"Required"`
 }
 
-func InsertEngine(engine *Engine) error {
+func AddEngine(engine *Engine) error {
 	id, err := Db.Incr(IndexEngine)
 	if err != nil {
 		return err

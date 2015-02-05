@@ -8,7 +8,8 @@ import (
 )
 
 type Home struct {
-	renders.Renderer
+	RenderBase
+
 	middlewares.Auther
 }
 

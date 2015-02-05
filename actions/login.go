@@ -1,18 +1,19 @@
 package actions
 
 import (
-	"github.com/go-xorm/dbweb/middlewares"
-	"github.com/lunny/tango"
 	"github.com/tango-contrib/flash"
 	"github.com/tango-contrib/renders"
 	"github.com/tango-contrib/xsrf"
+
+	"github.com/go-xorm/dbweb/middlewares"
+	"github.com/go-xorm/dbweb/models"
 )
 
 type Login struct {
+	RenderBase
+
 	middlewares.AuthUser
-	renders.Renderer
 	xsrf.Checker
-	tango.Req
 	flash.Flash
 }
 
@@ -30,14 +31,21 @@ func (c *Login) Get() error {
 
 func (c *Login) Post() {
 	c.Request.ParseForm()
-	user := c.Request.FormValue("user")
+	name := c.Request.FormValue("user")
 	password := c.Request.FormValue("password")
 
-	if user != "admin" || password != "admin" {
+	user, err := models.GetUserByName(name)
+	if err != nil {
+		c.Flash.Set("AuthError", "账号或密码错误")
+		c.Redirect("/login")
+		return
+	}
+
+	if user.Password != models.EncodePassword(password) {
 		c.Flash.Set("AuthError", "账号或密码错误")
 		c.Redirect("/login")
 	} else {
-		c.SetLogin(1)
+		c.SetLogin(user.Id)
 		c.Redirect("/")
 	}
 }

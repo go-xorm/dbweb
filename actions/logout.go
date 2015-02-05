@@ -6,6 +6,7 @@ import (
 )
 
 type Logout struct {
+	Base
 	middlewares.AuthUser
 	tango.Ctx
 }

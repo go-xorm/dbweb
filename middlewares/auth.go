@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"github.com/go-xweb/httpsession"
-	"github.com/gogits/gogs/models"
+	"github.com/go-xorm/dbweb/models"
 	"github.com/lunny/tango"
 	"github.com/tango-contrib/session"
 )

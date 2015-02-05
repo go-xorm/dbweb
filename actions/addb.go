@@ -11,7 +11,8 @@ import (
 )
 
 type Addb struct {
-	renders.Renderer
+	RenderBase
+
 	binding.Binder
 	xsrf.Checker
 	middlewares.Auther
@@ -36,7 +37,7 @@ func (c *Addb) Post() error {
 		return errors.New("")
 	}
 
-	if err := models.InsertEngine(&engine); err != nil {
+	if err := models.AddEngine(&engine); err != nil {
 		return err
 	}
 
