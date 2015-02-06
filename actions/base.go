@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"strings"
+
 	"github.com/Unknwon/i18n"
 	"github.com/lunny/tango"
 
@@ -8,7 +10,7 @@ import (
 )
 
 type Base struct {
-	tango.Compress
+	//tango.Compress
 }
 
 type RenderBase struct {
@@ -17,12 +19,19 @@ type RenderBase struct {
 	tango.Req
 }
 
+func formatLang(l string) string {
+	if len(l) != 5 || l[2] != '-' {
+		return "en-US"
+	}
+	return strings.ToLower(l[:2]) + "-" + strings.ToUpper(l[3:])
+}
+
 func (r *RenderBase) CurLang() string {
 	al := r.Header.Get("Accept-Language")
 	if len(al) > 4 {
 		al = al[:5] // Only compare first 5 letters.
-		if i18n.IsExist(al) {
-			return al
+		if i18n.IsExist(formatLang(al)) {
+			return formatLang(al)
 		}
 	}
 	return "en-US"

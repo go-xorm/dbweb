@@ -27,6 +27,7 @@ func (c *ChgPass) Get() error {
 		"XsrfFormHtml": c.XsrfFormHtml(),
 		"engines":      engines,
 		"flash":        c.Flash.Data(),
+		"IsLogin":      c.IsLogin(),
 	})
 }
 

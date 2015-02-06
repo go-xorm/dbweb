@@ -10,6 +10,7 @@ import (
 var (
 	isDebug *bool = flag.Bool("debug", false, "enable debug mode")
 	port    *int  = flag.Int("port", 8989, "listen port")
+	https   *bool = flag.Bool("https", false, "enable https")
 )
 
 func main() {
@@ -26,5 +27,11 @@ func main() {
 	}
 
 	t := InitTango(*isDebug)
-	t.Run(fmt.Sprintf(":%d", *port))
+
+	listen := fmt.Sprintf(":%d", *port)
+	if *https {
+		t.RunTLS("./cert.pem", "./key.pem", listen)
+	} else {
+		t.Run(listen)
+	}
 }
