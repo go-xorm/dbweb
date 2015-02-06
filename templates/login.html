@@ -14,7 +14,7 @@
 <div class="text-center">
 <div class="col-md-4 col-md-offset-4">
 	{{if .flash.AuthError}}
-        <div class="alert alert-error">
+      <div class="alert alert-danger">
         	<p>{{.flash.AuthError}}</p>
     	</div>
     {{end}}
@@ -23,11 +23,10 @@
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-3 control-label">{{i18n .Lang "login_name"}}</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" name="user" id="inputEmail3" placeholder="{{i18n .Lang "login_name_hint"}}">
+      <input type="text" class="form-control" name="user" id="inputEmail3" placeholder="{{i18n .Lang "login_name_hint"}}" value="{{.flash.user}}">
     </div>
   </div>
-  <div style="margin-top:30px;">
-  </div>
+  <br/><br/><br/>
   <div class="form-group">
     <label for="inputPassword3" class="col-sm-3 control-label">{{i18n .Lang "password"}}</label>
     <div class="col-sm-9">

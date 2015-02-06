@@ -3,9 +3,13 @@ package main
 import (
 	"html/template"
 	"reflect"
+	"runtime"
+	"strings"
 	"time"
 
 	"github.com/Unknwon/i18n"
+	"github.com/go-xorm/xorm"
+	"github.com/lunny/nodb"
 	"github.com/lunny/tango"
 	"github.com/tango-contrib/binding"
 	"github.com/tango-contrib/debug"
@@ -56,6 +60,12 @@ func InitTango(isDebug bool) *tango.Tango {
 				},
 				"isNil": isNil,
 				"i18n":  i18n.Tr,
+			},
+			Vars: renders.T{
+				"GoVer":    strings.Trim(runtime.Version(), "go"),
+				"TangoVer": tango.Version(),
+				"XormVer":  xorm.Version,
+				"NodbVer":  nodb.Version,
 			},
 		}),
 		middlewares.Auth("/login", sess),

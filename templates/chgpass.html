@@ -20,17 +20,17 @@
 	</div>
 {{end}}
 <div>
-Old Password：<input name="old_pass" type="password"{{if .flash.oldError}} class=".has-error"{{end}}/>{{if .flash.oldError}} {{.flash.oldError}}{{end}}
+{{i18n .Lang "old_password"}}<input name="old_pass" type="password"{{if .flash.oldError}} class=".has-error"{{end}}/>{{if .flash.oldError}} {{.flash.oldError}}{{end}}
 </div>
 <div>
-New Password：<input name="new_pass" type="password"/>
+{{i18n .Lang "new_password"}}<input name="new_pass" type="password"/>
 </div>
 <div>
-Cofirm Password：<input name="cfm_pass" type="password"{{if .flash.cfmError}} class=".has-error"{{end}}/>{{if .flash.cfmError}} {{.flash.cfmError}}{{end}}
+{{i18n .Lang "cfm_password"}}<input name="cfm_pass" type="password"{{if .flash.cfmError}} class=".has-error"{{end}}/>{{if .flash.cfmError}} {{.flash.cfmError}}{{end}}
 </div>
 <div>
-<input type="submit" value="修改" class="btn btn-primary">&nbsp; 
-<a href="/" class="btn btn-default">取消</a>
+<input type="submit" value="{{i18n .Lang "modify"}}" class="btn btn-primary">&nbsp; 
+<a href="/" class="btn btn-default">{{i18n .Lang "cancel"}}</a>
 </div>
 </form>
 </div>

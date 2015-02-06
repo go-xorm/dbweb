@@ -11,6 +11,11 @@ import (
 var (
 	ormCache  = make(map[string]*xorm.Engine)
 	cacheLock sync.RWMutex
+
+	SupportDBs = []string{
+		"mysql",
+		"postgres",
+	}
 )
 
 func getOrm(name string) *xorm.Engine {

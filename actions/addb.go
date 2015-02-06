@@ -1,11 +1,11 @@
 package actions
 
 import (
-	"errors"
-
+	"github.com/Unknwon/i18n"
 	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 	"github.com/tango-contrib/binding"
+	"github.com/tango-contrib/flash"
 	"github.com/tango-contrib/renders"
 	"github.com/tango-contrib/xsrf"
 )
@@ -16,6 +16,7 @@ type Addb struct {
 	binding.Binder
 	xsrf.Checker
 	middlewares.Auther
+	flash.Flash
 }
 
 func (c *Addb) Get() error {
@@ -25,29 +26,27 @@ func (c *Addb) Get() error {
 	}
 
 	return c.Render("add.html", renders.T{
+		"dbs":          SupportDBs,
+		"flash":        c.Flash.Data(),
 		"engines":      engines,
 		"XsrfFormHtml": c.XsrfFormHtml(),
 		"IsLogin":      c.IsLogin(),
 	})
 }
 
-func (c *Addb) Post() error {
+func (c *Addb) Post() {
 	var engine models.Engine
 	if err := c.MapForm(&engine); err != nil {
-		return errors.New("")
+		c.Flash.Set("ErrAdd", i18n.Tr(c.CurLang(), "err_param"))
+		c.Flash.Redirect("/addb")
+		return
 	}
 
 	if err := models.AddEngine(&engine); err != nil {
-		return err
+		c.Flash.Set("ErrAdd", i18n.Tr(c.CurLang(), "err_add_failed"))
+		c.Flash.Redirect("/addb")
+		return
 	}
 
-	engines, err := models.FindEngines()
-	if err != nil {
-		return err
-	}
-
-	return c.Render("addsuccess.html", renders.T{
-		"engines": engines,
-		"IsLogin": c.IsLogin(),
-	})
+	c.Flash.Redirect("/")
 }

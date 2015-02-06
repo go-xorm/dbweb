@@ -17,19 +17,21 @@ type RenderBase struct {
 	tango.Req
 }
 
+func (r *RenderBase) CurLang() string {
+	al := r.Header.Get("Accept-Language")
+	if len(al) > 4 {
+		al = al[:5] // Only compare first 5 letters.
+		if i18n.IsExist(al) {
+			return al
+		}
+	}
+	return "en-US"
+}
+
 func (r *RenderBase) Render(tmpl string, t ...renders.T) error {
 	if len(t) > 0 {
 		return r.Renderer.Render(tmpl, t[0].Merge(renders.T{
-			"Lang": func() string {
-				al := r.Header.Get("Accept-Language")
-				if len(al) > 4 {
-					al = al[:5] // Only compare first 5 letters.
-					if i18n.IsExist(al) {
-						return al
-					}
-				}
-				return "en-US"
-			}(),
+			"Lang": r.CurLang(),
 		}))
 	}
 	return r.Renderer.Render(tmpl)

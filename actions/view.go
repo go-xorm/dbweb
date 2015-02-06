@@ -105,14 +105,15 @@ func (c *View) Get() error {
 	}
 
 	return c.Render("root.html", renders.T{
-		"engines": engines,
-		"tables":  tables,
-		"table":   table,
-		"records": records,
-		"columns": columns,
-		"id":      id,
-		"sql":     sql,
-		"pkIdx":   pkIdx,
-		"IsLogin": c.IsLogin(),
+		"engines":   engines,
+		"tables":    tables,
+		"table":     table,
+		"records":   records,
+		"columns":   columns,
+		"id":        id,
+		"sql":       sql,
+		"pkIdx":     pkIdx,
+		"curEngine": engine.Name,
+		"IsLogin":   c.IsLogin(),
 	})
 }

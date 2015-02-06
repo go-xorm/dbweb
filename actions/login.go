@@ -36,12 +36,14 @@ func (c *Login) Post() {
 
 	user, err := models.GetUserByName(name)
 	if err != nil {
+		c.Flash.Set("user", name)
 		c.Flash.Set("AuthError", "账号或密码错误")
 		c.Redirect("/login")
 		return
 	}
 
 	if user.Password != models.EncodePassword(password) {
+		c.Flash.Set("user", name)
 		c.Flash.Set("AuthError", "账号或密码错误")
 		c.Redirect("/login")
 	} else {

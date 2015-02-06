@@ -3,25 +3,30 @@
 
 {{define "body"}}
 <div>
+{{if .flash.ErrAdd}}
+<div class="text-center">
+	<p class="bg-error">
+	{{.flash.ErrAdd}}
+	</p>
+</div>
+{{end}}
 <form method="POST">
 {{.XsrfFormHtml}}
 <div>
-名称：<input name="name"/>
+{{i18n .Lang "db_name"}}<input name="name" placeholder="{{i18n .Lang "input_db_name"}}"/>
 </div>
 <div>
-数据库类型：
+{{i18n .Lang "db_type"}}
 <select name="driver">
-<option value="mysql">mysql</option>
-<option value="mymysql">mymysql</option>
-<option value="postgres">postgres</option>
-<option value="mssql">mssql</option>
-<option value="sqlite3">sqlite3</option>
+{{range .dbs}}
+<option value="{{.}}">{{.}}</option>
+{{end}}
 </select>
 </div>
 <div>
-数据库连接符：<input name="data_source"/>
+{{i18n .Lang "database_connstr"}}<input name="data_source"/>
 </div>
-<input type="submit" value="保存"/>
+<input type="submit" value="{{i18n .Lang "save"}}"/>
 </form>
 </div>
 <div>
