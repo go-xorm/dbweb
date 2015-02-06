@@ -14,8 +14,13 @@
 	<div>{{.curEngine}}</div>
 	<ul>
 		{{$id := .id}}
+		{{$tb := .tb}}
 		{{range .tables}}
-		<li><a href="/view?id={{$id}}&tb={{.Name}}">{{.Name}}</a></li>
+			{{if eq .Name $tb}}
+			<li>{{.Name}}</li>
+			{{else}}
+			<li><a href="/view?id={{$id}}&tb={{.Name}}">{{.Name}}</a></li>
+			{{end}}
 		{{end}}
 	</ul>
 </div>

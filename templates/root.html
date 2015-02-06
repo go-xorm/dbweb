@@ -52,9 +52,14 @@
 				{{end}}
 			</tr>
 			{{else}}
+
 			<tr>
 			<td colspan="{{len .columns|add 1}}" height="200">
-			{{i18n .Lang "no_data"}}
+			{{if .isExecute}}
+				{{i18n .Lang "affected_desc" .affected}}
+			{{else}}
+				{{i18n .Lang "no_data"}}
+			{{end}}
 			</td>
 			</tr>
 			{{end}}
