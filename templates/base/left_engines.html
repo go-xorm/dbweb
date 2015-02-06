@@ -9,9 +9,18 @@
 		<a href="/addb">{{i18n .Lang "add_db"}}</a>
 		{{end}}
 	</li>
+	{{$curEngine := .curEngine}}
 	{{range .engines}}
 	<li>
-	<a href="/view?id={{.Id}}">{{.Name}}</a>
+	{{if $curEngine}}
+		{{if eq $curEngine .Name}}
+			{{.Name}}
+		{{else}}
+			<a href="/view?id={{.Id}}">{{.Name}}</a>
+		{{end}}
+	{{else}}
+		<a href="/view?id={{.Id}}">{{.Name}}</a>
+	{{end}}
 	<a href="#" class="btn btn-warning btn-xs">{{i18n $lang "edit"}}</a>
 	<a href="/del?id={{.Id}}" class="btn btn-danger btn-xs">{{i18n $lang "delete"}}</a>
 	</li>
