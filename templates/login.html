@@ -13,6 +13,10 @@
 {{define "body"}}
 <div class="text-center">
 <div class="col-md-4 col-md-offset-4">
+<h1>
+{{i18n .Lang "login_title"}}
+</h1>
+<br/>
 	{{if .flash.AuthError}}
       <div class="alert alert-danger">
         	<p>{{.flash.AuthError}}</p>

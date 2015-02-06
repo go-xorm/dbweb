@@ -2,7 +2,7 @@
 {{template "base/common.html" .}}
 
 {{define "body"}}
-<div>
+<div class="col-md-10">
 {{if .flash.ErrAdd}}
 <div class="text-center">
 	<p class="bg-error">
@@ -10,12 +10,12 @@
 	</p>
 </div>
 {{end}}
-<form method="POST">
+<form method="POST" role="form">
 {{.XsrfFormHtml}}
-<div>
+<div class="form-group">
 {{i18n .Lang "db_name"}}<input name="name" placeholder="{{i18n .Lang "input_db_name"}}"/>
 </div>
-<div>
+<div class="form-group">
 {{i18n .Lang "db_type"}}
 <select name="driver">
 {{range .dbs}}
@@ -23,10 +23,12 @@
 {{end}}
 </select>
 </div>
-<div>
-{{i18n .Lang "database_connstr"}}<input name="data_source"/>
+<div class="form-group">
+{{i18n .Lang "database_connstr"}}<input name="data_source" placeholder="{{i18n .Lang "database_connstr_hint"}}"/>
 </div>
-<input type="submit" value="{{i18n .Lang "save"}}"/>
+<div class="form-group">
+<input type="submit" value="{{i18n .Lang "save"}}" class="btn btn-primary" />
+</div>
 </form>
 </div>
 <div>

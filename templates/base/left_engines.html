@@ -1,7 +1,14 @@
 <div class="col-md-2">
-	<a href="/addb">{{i18n .Lang "add_db"}}</a>
+	<h4>{{i18n .Lang "all_db"}}</h4>
 	<ul>
 	{{$lang := .Lang}}
+	<li>
+		{{if .isAdd}}
+		{{i18n .Lang "add_db"}}
+		{{else}}
+		<a href="/addb">{{i18n .Lang "add_db"}}</a>
+		{{end}}
+	</li>
 	{{range .engines}}
 	<li>
 	<a href="/view?id={{.Id}}">{{.Name}}</a>
@@ -11,7 +18,7 @@
 	{{end}}
 	</ul>
 
-	<div>{{.curEngine}}</div>
+	<h4>{{.curEngine}}</h4>
 	<ul>
 		{{$id := .id}}
 		{{$tb := .tb}}

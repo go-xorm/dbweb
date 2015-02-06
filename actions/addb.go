@@ -31,6 +31,7 @@ func (c *Addb) Get() error {
 		"engines":      engines,
 		"XsrfFormHtml": c.XsrfFormHtml(),
 		"IsLogin":      c.IsLogin(),
+		"isAdd":        true,
 	})
 }
 
