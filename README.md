@@ -7,6 +7,10 @@ DBWeb is a web based database admin tool like phpmyadmin. It' written via
 
 ![dbweb](screenshot.png)
 
+# UI Languages
+
+Now support English and 简体中文.
+
 # Database Supports
 
 * mysql
