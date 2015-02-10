@@ -34,6 +34,7 @@ dbweb version 0.1
   -debug=false: enable debug mode
   -help=false: show help
   -https=false: enable https
+  -home=./: set the home dir which contain templates,static,langs,certs
   -port=8989: listen port
 ```
 
