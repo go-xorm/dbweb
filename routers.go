@@ -6,6 +6,7 @@ import (
 	"runtime"
 	"strings"
 	"time"
+	"path/filepath"
 
 	"github.com/Unknwon/i18n"
 	"github.com/go-xorm/xorm"
@@ -46,11 +47,12 @@ func InitTango(isDebug bool) *tango.Tango {
 	t.Use(
 		binding.Bind(),
 		tango.Static(tango.StaticOptions{
-			RootPath: "./static",
+			RootPath: filepath.Join(*homeDir, "static"),
 			Prefix:   "static",
 		}),
 		renders.New(renders.Options{
 			Reload: t.Mode == tango.Dev,
+			Directory: filepath.Join(*homeDir, "templates"),
 			Funcs: template.FuncMap{
 				"isempty": func(s string) bool {
 					return len(s) == 0
