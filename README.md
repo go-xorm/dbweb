@@ -30,3 +30,5 @@ dbweb version 0.1
 ```
 
 Then visit http://localhost:8989/
+
+The default user is admin and password is admin. You can change it after you loged in.
