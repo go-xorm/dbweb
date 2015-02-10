@@ -3,6 +3,10 @@
 DBWeb is a web based database admin tool like phpmyadmin. It' written via 
 [xorm](http://github.com/go-xorm/xorm), [tango](http://github.com/lunny/tango), [nodb](http://github.com/lunny/nodb).
 
+# Screenshot
+
+![dbweb](screenshot.png)
+
 # Database Supports
 
 * mysql
