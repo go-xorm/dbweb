@@ -19,7 +19,14 @@ go install github.com/go-xorm/dbweb
 # Run
 
 ```Shell
-dbweb
+./dbweb -help
+
+dbweb version 0.1
+
+  -debug=false: enable debug mode
+  -help=false: show help
+  -https=false: enable https
+  -port=8989: listen port
 ```
 
 Then visit http://localhost:8989/
