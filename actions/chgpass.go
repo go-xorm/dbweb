@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"github.com/Unknwon/i18n"
 	"github.com/tango-contrib/flash"
 	"github.com/tango-contrib/renders"
 	"github.com/tango-contrib/xsrf"
@@ -39,18 +40,18 @@ func (c *ChgPass) Post() {
 	defer c.Flash.Redirect("/chgpass")
 
 	if newPass != cfmPass {
-		c.Flash.Set("cfmError", "两次输入密码不一致")
+		c.Flash.Set("cfmError", i18n.Tr(c.CurLang(), "password_not_eq"))
 		return
 	}
 
 	user := c.Auther.LoginUser()
 	if user != nil {
 		if models.EncodePassword(oldPass) != user.Password {
-			c.Flash.Set("oldError", "原密码不正确")
+			c.Flash.Set("oldError", i18n.Tr(c.CurLang(), "ori_password_not_correct"))
 			return
 		}
 	} else {
-		c.Flash.Set("otherError", "未知错误")
+		c.Flash.Set("otherError", i18n.Tr(c.CurLang(), "unknown_error"))
 		return
 	}
 
@@ -61,5 +62,5 @@ func (c *ChgPass) Post() {
 		return
 	}
 
-	c.Flash.Set("changeSuccess", "密码修改成功")
+	c.Flash.Set("changeSuccess", i18n.Tr(c.CurLang(), "password_change_success"))
 }

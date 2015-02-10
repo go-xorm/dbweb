@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"github.com/Unknwon/i18n"
 	"github.com/tango-contrib/flash"
 	"github.com/tango-contrib/renders"
 	"github.com/tango-contrib/xsrf"
@@ -37,14 +38,14 @@ func (c *Login) Post() {
 	user, err := models.GetUserByName(name)
 	if err != nil {
 		c.Flash.Set("user", name)
-		c.Flash.Set("AuthError", "账号或密码错误")
+		c.Flash.Set("AuthError", i18n.Tr(c.CurLang(), "pasword_error"))
 		c.Redirect("/login")
 		return
 	}
 
 	if user.Password != models.EncodePassword(password) {
 		c.Flash.Set("user", name)
-		c.Flash.Set("AuthError", "账号或密码错误")
+		c.Flash.Set("AuthError", i18n.Tr(c.CurLang(), "pasword_error"))
 		c.Redirect("/login")
 	} else {
 		c.SetLogin(user.Id)
