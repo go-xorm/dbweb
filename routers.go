@@ -2,11 +2,11 @@ package main
 
 import (
 	"html/template"
+	"path/filepath"
 	"reflect"
 	"runtime"
 	"strings"
 	"time"
-	"path/filepath"
 
 	"github.com/Unknwon/i18n"
 	"github.com/go-xorm/xorm"
@@ -43,7 +43,9 @@ func InitTango(isDebug bool) *tango.Tango {
 		}))
 	}
 	t.Use(tango.ClassicHandlers...)
-	sess := session.New(sessionTimeout)
+	sess := session.New(session.Options{
+		MaxAge: sessionTimeout,
+	})
 	t.Use(
 		binding.Bind(),
 		tango.Static(tango.StaticOptions{
@@ -51,7 +53,7 @@ func InitTango(isDebug bool) *tango.Tango {
 			Prefix:   "static",
 		}),
 		renders.New(renders.Options{
-			Reload: t.Mode == tango.Dev,
+			Reload:    t.Mode == tango.Dev,
 			Directory: filepath.Join(*homeDir, "templates"),
 			Funcs: template.FuncMap{
 				"isempty": func(s string) bool {

@@ -9,6 +9,13 @@ import (
 	"github.com/tango-contrib/renders"
 )
 
+func formatLang(l string) string {
+	if len(l) != 5 || l[2] != '-' {
+		return "en-US"
+	}
+	return strings.ToLower(l[:2]) + "-" + strings.ToUpper(l[3:])
+}
+
 type Base struct {
 	//tango.Compress
 }
@@ -17,13 +24,6 @@ type RenderBase struct {
 	Base
 	renders.Renderer
 	tango.Req
-}
-
-func formatLang(l string) string {
-	if len(l) != 5 || l[2] != '-' {
-		return "en-US"
-	}
-	return strings.ToLower(l[:2]) + "-" + strings.ToUpper(l[3:])
 }
 
 func (r *RenderBase) CurLang() string {
