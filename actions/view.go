@@ -19,7 +19,7 @@ type View struct {
 }
 
 func (c *View) Get() error {
-	id, err := strconv.ParseInt(c.Request.FormValue("id"), 10, 64)
+	id, err := strconv.ParseInt(c.Req().FormValue("id"), 10, 64)
 	if err != nil {
 		return err
 	}
@@ -41,8 +41,8 @@ func (c *View) Get() error {
 
 	var records = make([][]*string, 0)
 	var columns = make([]*core.Column, 0)
-	tb := c.Request.FormValue("tb")
-	sql := c.Request.FormValue("sql")
+	tb := c.Req().FormValue("tb")
+	sql := c.Req().FormValue("sql")
 	var table *core.Table
 	var pkIdx int
 	var isExecute bool

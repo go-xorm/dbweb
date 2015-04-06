@@ -31,9 +31,9 @@ func (c *Login) Get() error {
 }
 
 func (c *Login) Post() {
-	c.Request.ParseForm()
-	name := c.Request.FormValue("user")
-	password := c.Request.FormValue("password")
+	c.Req().ParseForm()
+	name := c.Req().FormValue("user")
+	password := c.Req().FormValue("password")
 
 	user, err := models.GetUserByName(name)
 	if err != nil {

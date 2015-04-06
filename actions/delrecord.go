@@ -12,13 +12,12 @@ import (
 
 type DelRecord struct {
 	Base
-	tango.Req
 	tango.Ctx
 	middlewares.Auther
 }
 
 func (d *DelRecord) Get() error {
-	id, err := strconv.ParseInt(d.FormValue("id"), 10, 64)
+	id, err := strconv.ParseInt(d.Req().FormValue("id"), 10, 64)
 	if err != nil {
 		return err
 	}
@@ -38,10 +37,10 @@ func (d *DelRecord) Get() error {
 		setOrm(engine.Name, o)
 	}
 
-	tb := d.FormValue("tb")
-	colname := d.FormValue("colname")
-	colval := d.FormValue("colval")
-	isnumeric, _ := strconv.ParseBool(d.FormValue("isnumeric"))
+	tb := d.Req().FormValue("tb")
+	colname := d.Req().FormValue("colname")
+	colval := d.Req().FormValue("colval")
+	isnumeric, _ := strconv.ParseBool(d.Req().FormValue("isnumeric"))
 
 	var val string = colval
 	if !isnumeric {

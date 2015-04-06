@@ -15,7 +15,7 @@ type Del struct {
 }
 
 func (c *Del) Get() error {
-	id, err := strconv.ParseInt(c.Request.FormValue("id"), 10, 64)
+	id, err := strconv.ParseInt(c.Req().FormValue("id"), 10, 64)
 	if err != nil {
 		return err
 	}

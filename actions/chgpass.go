@@ -33,9 +33,9 @@ func (c *ChgPass) Get() error {
 }
 
 func (c *ChgPass) Post() {
-	oldPass := c.FormValue("old_pass")
-	newPass := c.FormValue("new_pass")
-	cfmPass := c.FormValue("cfm_pass")
+	oldPass := c.Req().FormValue("old_pass")
+	newPass := c.Req().FormValue("new_pass")
+	cfmPass := c.Req().FormValue("cfm_pass")
 
 	defer c.Flash.Redirect("/chgpass")
 

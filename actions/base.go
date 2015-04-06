@@ -23,11 +23,11 @@ type Base struct {
 type RenderBase struct {
 	Base
 	renders.Renderer
-	tango.Req
+	tango.Ctx
 }
 
 func (r *RenderBase) CurLang() string {
-	al := r.Header.Get("Accept-Language")
+	al := r.Req().Header.Get("Accept-Language")
 	if len(al) > 4 {
 		al = al[:5] // Only compare first 5 letters.
 		if i18n.IsExist(formatLang(al)) {
