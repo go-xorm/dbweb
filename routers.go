@@ -73,9 +73,7 @@ func InitTango(isDebug bool) *tango.Tango {
 			},
 		}),
 		middlewares.Auth("/login", sess),
-		flash.Flashes(flash.Options{
-			CookiePath: "/",
-		}),
+		flash.Flashes(sess),
 		sess,
 	)
 

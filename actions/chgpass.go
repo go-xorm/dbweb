@@ -37,7 +37,7 @@ func (c *ChgPass) Post() {
 	newPass := c.Req().FormValue("new_pass")
 	cfmPass := c.Req().FormValue("cfm_pass")
 
-	defer c.Flash.Redirect("/chgpass")
+	defer c.Redirect("/chgpass")
 
 	if newPass != cfmPass {
 		c.Flash.Set("cfmError", i18n.Tr(c.CurLang(), "password_not_eq"))

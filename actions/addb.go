@@ -39,15 +39,15 @@ func (c *Addb) Post() {
 	var engine models.Engine
 	if err := c.MapForm(&engine); err != nil {
 		c.Flash.Set("ErrAdd", i18n.Tr(c.CurLang(), "err_param"))
-		c.Flash.Redirect("/addb")
+		c.Redirect("/addb")
 		return
 	}
 
 	if err := models.AddEngine(&engine); err != nil {
 		c.Flash.Set("ErrAdd", i18n.Tr(c.CurLang(), "err_add_failed"))
-		c.Flash.Redirect("/addb")
+		c.Redirect("/addb")
 		return
 	}
 
-	c.Flash.Redirect("/")
+	c.Redirect("/")
 }
