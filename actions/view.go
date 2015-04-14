@@ -42,16 +42,33 @@ func (c *View) Get() error {
 	var records = make([][]*string, 0)
 	var columns = make([]*core.Column, 0)
 	tb := c.Req().FormValue("tb")
+	tb = strings.Replace(tb, `"`, "", -1)
+	tb = strings.Replace(tb, `'`, "", -1)
+	tb = strings.Replace(tb, "`", "", -1)
+
+	var isTableView = len(tb) > 0
+
 	sql := c.Req().FormValue("sql")
 	var table *core.Table
 	var pkIdx int
 	var isExecute bool
 	var affected int64
+	var total int
+	var countSql string
+	var args = make([]interface{}, 0)
+
+	start, _ := strconv.Atoi(c.Req().FormValue("start"))
+	limit, _ := strconv.Atoi(c.Req().FormValue("limit"))
+	if limit == 0 {
+		limit = 20
+	}
 	if sql != "" || tb != "" {
 		if sql != "" {
 			isExecute = !strings.HasPrefix(strings.ToLower(sql), "select")
 		} else if tb != "" {
-			sql = "select * from " + tb
+			countSql = "select count(*) from " + tb
+			sql = fmt.Sprintf("select * from "+tb+" LIMIT %d OFFSET %d", limit, start)
+			//args = append(args, []interface{}{limit, start}...)
 		} else {
 			return errors.New("unknow operation")
 		}
@@ -63,7 +80,15 @@ func (c *View) Get() error {
 			}
 			affected, _ = res.RowsAffected()
 		} else {
-			rows, err := o.DB().Query(sql)
+			if len(countSql) > 0 {
+				err = o.DB().QueryRow(countSql).Scan(&total)
+				if err != nil {
+					return err
+				}
+				fmt.Println("total records:", total)
+			}
+
+			rows, err := o.DB().Query(sql, args...)
 			if err != nil {
 				return err
 			}
@@ -115,18 +140,33 @@ func (c *View) Get() error {
 	}
 
 	return c.Render("root.html", renders.T{
-		"engines":   engines,
-		"tables":    tables,
-		"table":     table,
-		"records":   records,
-		"columns":   columns,
-		"id":        id,
-		"sql":       sql,
-		"tb":        tb,
-		"isExecute": isExecute,
-		"affected":  affected,
-		"pkIdx":     pkIdx,
-		"curEngine": engine.Name,
-		"IsLogin":   c.IsLogin(),
+		"engines":     engines,
+		"tables":      tables,
+		"table":       table,
+		"records":     records,
+		"columns":     columns,
+		"id":          id,
+		"sql":         sql,
+		"tb":          tb,
+		"isExecute":   isExecute,
+		"isTableView": isTableView,
+		"limit":       limit,
+		"curPage":     start / limit,
+		"totalPage":   pager(total, limit),
+		"affected":    affected,
+		"pkIdx":       pkIdx,
+		"curEngine":   engine.Name,
+		"IsLogin":     c.IsLogin(),
 	})
+}
+
+func pager(total, limit int) int {
+	if total%limit == 0 {
+		return total / limit
+	}
+	return total/limit + 1
+}
+
+func curPage(start, limit int) int {
+	return start / limit
 }

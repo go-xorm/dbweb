@@ -64,6 +64,12 @@ func InitTango(isDebug bool) *tango.Tango {
 				},
 				"isNil": isNil,
 				"i18n":  i18n.Tr,
+				"Range": func(size int) []struct{} {
+					return make([]struct{}, size)
+				},
+				"multi": func(a, b int) int {
+					return a * b
+				},
 			},
 			Vars: renders.T{
 				"GoVer":    strings.Trim(runtime.Version(), "go"),

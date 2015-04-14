@@ -17,6 +17,21 @@
 
 	{{$table := .table}}
 	<div class="row" style="margin-top:20px;">
+	{{if .isTableView}}
+		<div class="pull-right">
+			<nav>
+			  <ul class="pagination">
+			    {{$curPage := .curPage}}
+			    {{$tb := .tb}}
+			    {{$id := .id}}
+			    {{$limit := .limit}}
+			    {{range $k, $v := (Range .totalPage)}}
+			    <li><a href="{{if eq $k $curPage}}#{{else}}/view?id={{$id}}&tb={{$tb}}&start={{multi $k $limit}}{{end}}">{{add $k 1}}</a></li>
+			    {{end}}
+			  </ul>
+			</nav>
+		</div>
+		{{end}}
 		<table class="table table-striped table-bordered">
 		{{if .ishome}}
 			<tr class="text-center">
@@ -63,8 +78,24 @@
 			</td>
 			</tr>
 			{{end}}
+			
 		{{end}}
 		</table>
+		{{if .isTableView}}
+		<div class="pull-right">
+			<nav>
+			  <ul class="pagination">
+			    {{$curPage := .curPage}}
+			    {{$tb := .tb}}
+			    {{$id := .id}}
+			    {{$limit := .limit}}
+			    {{range $k, $v := (Range .totalPage)}}
+			    <li><a href="{{if eq $k $curPage}}#{{else}}/view?id={{$id}}&tb={{$tb}}&start={{multi $k $limit}}{{end}}">{{add $k 1}}</a></li>
+			    {{end}}
+			  </ul>
+			</nav>
+		</div>
+		{{end}}
 	</div>
 </div>
 {{end}}
