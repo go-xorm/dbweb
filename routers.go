@@ -53,7 +53,7 @@ func InitTango(isDebug bool) *tango.Tango {
 			Prefix:   "static",
 		}),
 		renders.New(renders.Options{
-			Reload:    t.Mode == tango.Dev,
+			Reload:    true,
 			Directory: filepath.Join(*homeDir, "templates"),
 			Funcs: template.FuncMap{
 				"isempty": func(s string) bool {
