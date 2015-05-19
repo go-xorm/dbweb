@@ -41,6 +41,7 @@ func (a *Auther) SetLogin(id int64) {
 
 func (a *Auther) Logout() {
 	a.s.Del(LoginIdKey)
+	a.s.Release()
 }
 
 func (a *Auther) LoginUserId() int64 {

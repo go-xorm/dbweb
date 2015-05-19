@@ -43,5 +43,7 @@ func (r *RenderBase) Render(tmpl string, t ...renders.T) error {
 			"Lang": r.CurLang(),
 		}))
 	}
-	return r.Renderer.Render(tmpl)
+	return r.Renderer.Render(tmpl, renders.T{
+		"Lang": r.CurLang(),
+	})
 }
