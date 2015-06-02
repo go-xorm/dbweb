@@ -66,8 +66,8 @@ func (c *View) Get() error {
 		if sql != "" {
 			isExecute = !strings.HasPrefix(strings.ToLower(sql), "select")
 		} else if tb != "" {
-			countSql = "select count(*) from " + tb
-			sql = fmt.Sprintf("select * from "+tb+" LIMIT %d OFFSET %d", limit, start)
+			countSql = "select count(*) from `" + tb + "`"
+			sql = fmt.Sprintf("select * from `"+tb+"` LIMIT %d OFFSET %d", limit, start)
 			//args = append(args, []interface{}{limit, start}...)
 		} else {
 			return errors.New("unknow operation")

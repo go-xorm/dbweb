@@ -1,6 +1,16 @@
 {{template "base/base.html" .}}
 {{template "base/common.html" .}}
 
+{{define "head"}}
+<script type="text/javascript">
+	function test(){
+		$.ajax({
+			url:'/test'
+		})
+	})
+</script>
+{{end}}
+
 {{define "body"}}
 <div class="col-md-10">
 {{if .flash.ErrAdd}}
@@ -11,24 +21,25 @@
 </div>
 {{end}}
 <form method="POST" role="form">
-{{.XsrfFormHtml}}
-<div class="form-group">
-{{i18n .Lang "db_name"}}<input name="name" placeholder="{{i18n .Lang "input_db_name"}}"/>
-</div>
-<div class="form-group">
-{{i18n .Lang "db_type"}}
-<select name="driver">
-{{range .dbs}}
-<option value="{{.}}">{{.}}</option>
-{{end}}
-</select>
-</div>
-<div class="form-group">
-{{i18n .Lang "database_connstr"}}<input name="data_source" placeholder="{{i18n .Lang "database_connstr_hint"}}"/>
-</div>
-<div class="form-group">
-<input type="submit" value="{{i18n .Lang "save"}}" class="btn btn-primary" />
-</div>
+	{{.XsrfFormHtml}}
+	<div class="form-group">
+	{{i18n .Lang "db_name"}}<input id="name" name="name" placeholder="{{i18n .Lang "input_db_name"}}"/>
+	</div>
+	<div class="form-group">
+	{{i18n .Lang "db_type"}}
+	<select id="driver" name="driver">
+		{{range .dbs}}
+		<option value="{{.}}">{{.}}</option>
+		{{end}}
+	</select>
+	</div>
+	<div class="form-group">
+	{{i18n .Lang "database_connstr"}}<input id="data_source" name="data_source" placeholder="{{i18n .Lang "database_connstr_hint"}}"/>
+	</div>
+	<div class="form-group">
+	<input type="submit" value="{{i18n .Lang "save"}}" class="btn btn-primary" />
+	<a href="javascript:test();" class="btn btn-warning">测试</a>
+	</div>
 </form>
 </div>
 <div>

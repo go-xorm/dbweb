@@ -20,6 +20,9 @@ var (
 )
 
 func GetOrm(engine *models.Engine) *xorm.Engine {
+	cacheLock.Lock()
+	defer cacheLock.Unlock()
+
 	o := getOrm(engine.Name)
 	if o == nil {
 		var err error
@@ -34,8 +37,6 @@ func GetOrm(engine *models.Engine) *xorm.Engine {
 }
 
 func getOrm(name string) *xorm.Engine {
-	cacheLock.RLock()
-	defer cacheLock.RUnlock()
 	if o, ok := ormCache[name]; ok {
 		return o
 	}
@@ -43,7 +44,5 @@ func getOrm(name string) *xorm.Engine {
 }
 
 func setOrm(name string, o *xorm.Engine) {
-	cacheLock.Lock()
-	defer cacheLock.Unlock()
 	ormCache[name] = o
 }

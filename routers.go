@@ -91,5 +91,6 @@ func InitTango(isDebug bool) *tango.Tango {
 	t.Any("/del", new(actions.Del))
 	t.Any("/delRecord", new(actions.DelRecord))
 	t.Any("/chgpass", new(actions.ChgPass))
+	t.Get("/test", new(actions.Test))
 	return t
 }
