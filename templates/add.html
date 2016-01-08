@@ -5,9 +5,24 @@
 <script type="text/javascript">
 	function test(){
 		$.ajax({
-			url:'/test'
+			url:'/test',
+			data: {
+				'name': $("#name").text(),
+				'host': $("#host").text(),
+				'username': $("#username").text(),
+				'dbname': $("#dbname").text(),
+				'passwd': $("#passwd").text(),
+			},
+			dataType: 'json',
+			success: function(content) {
+				if (content['err']) {
+					alert("failed: "+content['err'])
+				} else {
+				alert("success: "+content['status']);
+			}
+			}
 		})
-	})
+	}
 </script>
 {{end}}
 
@@ -34,11 +49,23 @@
 	</select>
 	</div>
 	<div class="form-group">
-	{{i18n .Lang "database_connstr"}}<input id="data_source" name="data_source" placeholder="{{i18n .Lang "database_connstr_hint"}}"/>
+	{{i18n .Lang "database_host"}}<input id="host" name="host" placeholder="{{i18n .Lang "database_host_hint"}}"/>
+	</div>
+	<div class="form-group">
+	{{i18n .Lang "database_port"}}<input id="port" name="port" value="3306" placeholder="3306"/>
+	</div>
+	<div class="form-group">
+	{{i18n .Lang "database_dbname"}}<input id="dbname" name="dbname" placeholder="{{i18n .Lang "database_dbname_hint"}}"/>
+	</div>
+	<div class="form-group">
+	{{i18n .Lang "database_username"}}<input id="username" name="username" placeholder="{{i18n .Lang "database_username_hint"}}"/>
+	</div>
+	<div class="form-group">
+	{{i18n .Lang "database_password"}}<input id="passwd" type="password" name="passwd" placeholder="{{i18n .Lang "database_password_hint"}}"/>
 	</div>
 	<div class="form-group">
 	<input type="submit" value="{{i18n .Lang "save"}}" class="btn btn-primary" />
-	<a href="javascript:test();" class="btn btn-warning">测试</a>
+	<!--<a href="javascript:test();" class="btn btn-warning">测试</a>-->
 	</div>
 </form>
 </div>

@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"fmt"
+
 	"github.com/Unknwon/i18n"
 	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
@@ -37,11 +39,22 @@ func (c *Addb) Get() error {
 
 func (c *Addb) Post() {
 	var engine models.Engine
-	if err := c.MapForm(&engine); err != nil {
+	engine.Name = c.Form("name")
+	engine.Driver = c.Form("driver")
+	host := c.Form("host")
+	port := c.Form("port")
+	dbname := c.Form("dbname")
+	username := c.Form("username")
+	passwd := c.Form("passwd")
+
+	engine.DataSource = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8",
+		username, passwd, host, port, dbname)
+
+	/*if err := c.MapForm(&engine); err != nil {
 		c.Flash.Set("ErrAdd", i18n.Tr(c.CurLang(), "err_param"))
 		c.Redirect("/addb")
 		return
-	}
+	}*/
 
 	if err := models.AddEngine(&engine); err != nil {
 		c.Flash.Set("ErrAdd", i18n.Tr(c.CurLang(), "err_add_failed"))
