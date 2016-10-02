@@ -13,8 +13,8 @@ Now support English and 简体中文.
 
 # Database Supports
 
-* mysql
-* postgres
+* MySQL
+* PostgreSQL
 * sqlite3 : build tag -sqlite3
 
 # Installation
@@ -25,6 +25,10 @@ go install github.com/go-xorm/dbweb
 ```
 
 # Run
+
+```Shell
+./dbweb -home=$GOPATH/src/github.com/go-xorm/dbweb/
+```
 
 ```Shell
 ./dbweb -help
@@ -40,4 +44,4 @@ dbweb version 0.1
 
 Then visit http://localhost:8989/
 
-The default user is admin and password is admin. You can change it after you loged in.
+The default user is `admin` and password is also `admin`. You can change it after you logged in.
