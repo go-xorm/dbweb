@@ -3,6 +3,8 @@
 
 {{define "head"}}
 <script type="text/javascript">
+	$("input[placeholder]").each(function () { $(this).attr('size', $(this).attr('placeholder').length); });
+
 	function test(){
 		$.ajax({
 			url:'/test',
