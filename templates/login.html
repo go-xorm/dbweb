@@ -37,6 +37,16 @@
       <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="{{i18n .Lang "password_hint"}}">
     </div>
   </div>
+  <br/><br/>
+  <div class="form-group">
+    <label for="inputCaptcha" class="col-sm-3 control-label">{{i18n .Lang "captcha"}}</label>
+    <div class="col-sm-9">
+      <input type="text" name="captcha" class="form-control col-sm-1" id="inputPassword3">
+    </div>
+  </div>
+  <div class="form-group">
+  {{.captcha}}
+  </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <div class="checkbox">

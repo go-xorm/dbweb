@@ -13,6 +13,7 @@ import (
 	"github.com/lunny/nodb"
 	"github.com/lunny/tango"
 	"github.com/tango-contrib/binding"
+	"github.com/tango-contrib/captcha"
 	"github.com/tango-contrib/debug"
 	"github.com/tango-contrib/flash"
 	"github.com/tango-contrib/renders"
@@ -78,6 +79,7 @@ func InitTango(isDebug bool) *tango.Tango {
 				"NodbVer":  nodb.Version,
 			},
 		}),
+		captcha.New(),
 		middlewares.Auth("/login", sess),
 		flash.Flashes(sess),
 		sess,

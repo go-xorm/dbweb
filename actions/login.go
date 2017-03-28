@@ -2,6 +2,7 @@ package actions
 
 import (
 	"github.com/Unknwon/i18n"
+	"github.com/tango-contrib/captcha"
 	"github.com/tango-contrib/flash"
 	"github.com/tango-contrib/renders"
 	"github.com/tango-contrib/xsrf"
@@ -16,6 +17,7 @@ type Login struct {
 	middlewares.AuthUser
 	xsrf.Checker
 	flash.Flash
+	captcha.Captcha
 }
 
 func (c *Login) Get() error {
@@ -27,6 +29,7 @@ func (c *Login) Get() error {
 	return c.Render("login.html", renders.T{
 		"XsrfFormHtml": c.XsrfFormHtml(),
 		"flash":        c.Flash.Data(),
+		"captcha":      c.CreateHtml(),
 	})
 }
 
@@ -34,6 +37,13 @@ func (c *Login) Post() {
 	c.Req().ParseForm()
 	name := c.Req().FormValue("user")
 	password := c.Req().FormValue("password")
+
+	if !c.Captcha.Verify() {
+		c.Flash.Set("user", name)
+		c.Flash.Set("AuthError", i18n.Tr(c.CurLang(), "captcha_error"))
+		c.Redirect("/login")
+		return
+	}
 
 	user, err := models.GetUserByName(name)
 	if err != nil {
