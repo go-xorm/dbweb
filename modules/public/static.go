@@ -19,7 +19,7 @@ func Static() tango.Handler {
 			Asset:     Asset,
 			AssetDir:  AssetDir,
 			AssetInfo: AssetInfo,
-			Prefix:    "public",
+			Prefix:    "../../public",
 		},
 	})
 }

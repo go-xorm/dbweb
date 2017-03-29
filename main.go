@@ -23,7 +23,7 @@ var (
 
 var (
 	defaultHome string
-	Version     = "0.2"
+	Version     = "0.2.0329"
 	Tags        string
 )
 
