@@ -2,11 +2,13 @@ package main
 
 import (
 	"html/template"
-	"path/filepath"
 	"reflect"
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/go-xorm/dbweb/modules/public"
+	"github.com/go-xorm/dbweb/modules/templates"
 
 	"github.com/Unknwon/i18n"
 	"github.com/go-xorm/xorm"
@@ -40,22 +42,24 @@ func InitTango(isDebug bool) *tango.Tango {
 	if isDebug {
 		t.Use(debug.Debug(debug.Options{
 			HideResponseBody: true,
-			IgnorePrefix:     "/static",
+			IgnorePrefix:     "/public",
 		}))
 	}
-	t.Use(tango.ClassicHandlers...)
 	sess := session.New(session.Options{
 		MaxAge: sessionTimeout,
 	})
 	t.Use(
+		tango.Logging(),
+		tango.Recovery(false),
+		tango.Compresses([]string{}),
+		public.Static(),
+		tango.Return(),
+		tango.Param(),
+		tango.Contexts(),
 		binding.Bind(),
-		tango.Static(tango.StaticOptions{
-			RootPath: filepath.Join(*homeDir, "static"),
-			Prefix:   "static",
-		}),
 		renders.New(renders.Options{
 			Reload:    true,
-			Directory: filepath.Join(*homeDir, "templates"),
+			Directory: "templates",
 			Funcs: template.FuncMap{
 				"isempty": func(s string) bool {
 					return len(s) == 0
@@ -78,6 +82,7 @@ func InitTango(isDebug bool) *tango.Tango {
 				"XormVer":  xorm.Version,
 				"NodbVer":  nodb.Version,
 			},
+			FileSystem: templates.FileSystem("templates"),
 		}),
 		captcha.New(),
 		middlewares.Auth("/login", sess),

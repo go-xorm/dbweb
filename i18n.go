@@ -2,15 +2,19 @@ package main
 
 import (
 	"fmt"
-	"path/filepath"
 	"strings"
 
 	"github.com/Unknwon/i18n"
+	options "github.com/go-xorm/dbweb/modules/options"
 )
 
 func InitI18n(langs []string) error {
 	for _, lang := range langs {
-		i18n.SetMessage(lang, filepath.Join(*homeDir, fmt.Sprintf("langs/locale_%s.ini", strings.ToLower(lang))))
+		data, err := options.Locale(fmt.Sprintf("locale_%s.ini", strings.ToLower(lang)))
+		if err != nil {
+			return err
+		}
+		i18n.SetMessage(lang, data)
 	}
 	return i18n.ReloadLangs(langs...)
 }
