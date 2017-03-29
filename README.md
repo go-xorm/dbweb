@@ -23,6 +23,16 @@ Now support English and 简体中文.
 go get github.com/go-xorm/dbweb
 go install github.com/go-xorm/dbweb
 ```
+# Build via make
+
+If you want to embbed the `langs`, `public` and `templats` to the binary, use the below command.
+You have to install `make` before this.
+
+```Shell
+TAGS="bindata" make generate build
+```
+
+Notice: If you want to serve via HTTPS, you still put your *.pem files on the `home` directory.
 
 # Run
 
@@ -33,7 +43,7 @@ go install github.com/go-xorm/dbweb
 ```Shell
 ./dbweb -help
 
-dbweb version 0.1
+dbweb version 0.2
 
   -debug=false: enable debug mode
   -help=false: show help
