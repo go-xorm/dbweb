@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/go-xorm/dbweb/modules/setting"
 	"github.com/lunny/log"
 
 	"github.com/go-xorm/dbweb/models"
