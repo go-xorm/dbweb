@@ -85,9 +85,9 @@ func InitTango(isDebug bool) *tango.Tango {
 			FileSystem: templates.FileSystem("templates"),
 		}),
 		captcha.New(),
-		middlewares.Auth("/login", sess),
-		flash.Flashes(sess),
 		sess,
+		middlewares.Auth("/login"),
+		flash.Flashes(sess),
 	)
 
 	t.Any("/", new(actions.Home))

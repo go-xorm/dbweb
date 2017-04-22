@@ -2,6 +2,7 @@
 {{template "base/common.html" .}}
 
 {{define "head"}}
+<script src="/public/js/vue.js"></script>
 <script type="text/javascript">
 	$("input[placeholder]").each(function () { $(this).attr('size', $(this).attr('placeholder').length); });
 
@@ -25,6 +26,31 @@
 			}
 		})
 	}
+
+	$(function(){
+		var driver = new Vue({
+			delimiters: ['${', '}'],
+			el: '#sel_driver',
+			data: {
+				selected: "mysql",
+				dbs: [
+					{{range .dbs}}
+      				{ name: '{{.Name}}', port: {{.DefaultPort}} },
+      				{{end}}
+    			]
+			},
+			methods: {
+				change_driver: function(event) {
+					for (var i=0;i < this.dbs.length;i++) {
+						if (this.dbs[i].name == this.selected) {
+							$("#port").val(this.dbs[i].port);
+							break
+						}
+					}
+				}
+			}
+		})
+	})
 </script>
 {{end}}
 
@@ -42,12 +68,10 @@
 	<div class="form-group">
 	{{i18n .Lang "db_name"}}<input id="name" name="name" placeholder="{{i18n .Lang "input_db_name"}}"/>
 	</div>
-	<div class="form-group">
+	<div id="sel_driver" class="form-group">
 	{{i18n .Lang "db_type"}}
-	<select id="driver" name="driver">
-		{{range .dbs}}
-		<option value="{{.}}">{{.}}</option>
-		{{end}}
+	<select id="driver" name="driver" v-model="selected" v-on:change="change_driver" >
+		<option v-for="db in dbs" v-bind:value="db.name">${db.name}</option>
 	</select>
 	</div>
 	<div class="form-group">

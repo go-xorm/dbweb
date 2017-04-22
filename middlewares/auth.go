@@ -3,61 +3,37 @@ package middlewares
 import (
 	"github.com/lunny/tango"
 	"github.com/tango-contrib/session"
-
-	"github.com/go-xorm/dbweb/models"
 )
 
 var (
-	LoginIdKey = "auth_user_id"
+	// LoginIDKey the login user id stored in Session
+	LoginIDKey = "auth_user_id"
 )
 
+// Auther all actions implmented this interface will be Auth middleware check
 type auther interface {
 	AskAuth() bool
-	SetUserId(int64)
-	SetSession(*session.Session)
+	SetLoginUserID(id int64)
 }
 
 type Auther struct {
 	id int64
-	s  *session.Session
 }
 
 func (Auther) AskAuth() bool {
 	return true
 }
 
-func (a *Auther) SetSession(s *session.Session) {
-	a.s = s
-}
-
-func (a *Auther) SetUserId(id int64) {
+func (a *Auther) SetLoginUserID(id int64) {
 	a.id = id
 }
 
-func (a *Auther) SetLogin(id int64) {
-	a.SetUserId(id)
-	a.s.Set(LoginIdKey, id)
-}
-
-func (a *Auther) Logout() {
-	a.s.Del(LoginIdKey)
-	a.s.Release()
-}
-
-func (a *Auther) LoginUserId() int64 {
+func (a *Auther) LoginUserID() int64 {
 	return a.id
 }
 
 func (a *Auther) IsLogin() bool {
 	return a.id > 0
-}
-
-func (a *Auther) LoginUser() *models.User {
-	user, err := models.GetUserById(a.id)
-	if err != nil {
-		return nil
-	}
-	return user
 }
 
 type AuthUser struct {
@@ -68,18 +44,23 @@ func (AuthUser) AskAuth() bool {
 	return false
 }
 
-func Auth(redirct string, sessions *session.Sessions) tango.HandlerFunc {
+// Auth middleware will check the action needs to check, if yes, then get user id from session to check if exist
+func Auth(redirct string) tango.HandlerFunc {
 	return func(ctx *tango.Context) {
 		if auther, ok := ctx.Action().(auther); ok {
-			s := sessions.Session(ctx.Req(), ctx.ResponseWriter)
-			auther.SetSession(s)
-			if userId := s.Get(LoginIdKey); userId == nil {
-				if auther.AskAuth() {
-					ctx.Redirect(redirct)
+			if sess, ok := ctx.Action().(session.Sessioner); ok {
+				// get session key to check is logined in
+				if userID := sess.GetSession().Get(LoginIDKey); userID != nil {
+					auther.SetLoginUserID(userID.(int64))
+					ctx.Next()
 					return
 				}
-			} else {
-				auther.SetUserId(userId.(int64))
+			}
+			// if ask login
+			if auther.AskAuth() {
+				ctx.Debug("No session found or no user id found in session")
+				ctx.Redirect(redirct)
+				return
 			}
 		}
 		ctx.Next()

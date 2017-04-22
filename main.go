@@ -7,10 +7,10 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/go-xorm/dbweb/modules/setting"
 	"github.com/lunny/log"
 
 	"github.com/go-xorm/dbweb/models"
+	"github.com/go-xorm/dbweb/modules/setting"
 )
 
 var (

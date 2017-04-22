@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/Unknwon/i18n"
-	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 	"github.com/tango-contrib/binding"
 	"github.com/tango-contrib/flash"
@@ -13,11 +12,10 @@ import (
 )
 
 type Addb struct {
-	RenderBase
+	AuthRenderBase
 
 	binding.Binder
 	xsrf.Checker
-	middlewares.Auther
 	flash.Flash
 }
 

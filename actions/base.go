@@ -3,10 +3,13 @@ package actions
 import (
 	"strings"
 
+	"github.com/go-xorm/dbweb/middlewares"
+	"github.com/go-xorm/dbweb/models"
+
 	"github.com/Unknwon/i18n"
 	"github.com/lunny/tango"
-
 	"github.com/tango-contrib/renders"
+	"github.com/tango-contrib/session"
 )
 
 func formatLang(l string) string {
@@ -24,6 +27,7 @@ type RenderBase struct {
 	Base
 	renders.Renderer
 	tango.Ctx
+	session.Session
 }
 
 func (r *RenderBase) CurLang() string {
@@ -46,4 +50,26 @@ func (r *RenderBase) Render(tmpl string, t ...renders.T) error {
 	return r.Renderer.Render(tmpl, renders.T{
 		"Lang": r.CurLang(),
 	})
+}
+
+func (r *RenderBase) SetLogin(id int64) {
+	r.Session.Set(middlewares.LoginIDKey, id)
+}
+
+func (r *RenderBase) Logout() {
+	r.Session.Del(middlewares.LoginIDKey)
+	r.Session.Release()
+}
+
+type AuthRenderBase struct {
+	RenderBase
+	middlewares.Auther
+}
+
+func (a *AuthRenderBase) LoginUser() *models.User {
+	user, err := models.GetUserById(a.LoginUserID())
+	if err != nil {
+		return nil
+	}
+	return user
 }

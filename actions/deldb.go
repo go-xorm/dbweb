@@ -3,15 +3,12 @@ package actions
 import (
 	"strconv"
 
-	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 	"github.com/tango-contrib/renders"
 )
 
 type Del struct {
-	RenderBase
-
-	middlewares.Auther
+	AuthRenderBase
 }
 
 func (c *Del) Get() error {

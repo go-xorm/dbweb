@@ -6,13 +6,11 @@ import (
 
 	"github.com/lunny/tango"
 
-	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 )
 
 type Test struct {
-	RenderBase
-	middlewares.Auther
+	AuthRenderBase
 	tango.Json
 }
 

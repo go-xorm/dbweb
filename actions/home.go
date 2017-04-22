@@ -2,15 +2,12 @@ package actions
 
 import (
 	"github.com/go-xorm/core"
-	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 	"github.com/tango-contrib/renders"
 )
 
 type Home struct {
-	RenderBase
-
-	middlewares.Auther
+	AuthRenderBase
 }
 
 func (c *Home) Get() error {

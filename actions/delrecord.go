@@ -4,16 +4,12 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 	"github.com/go-xorm/xorm"
-	"github.com/lunny/tango"
 )
 
 type DelRecord struct {
-	Base
-	tango.Ctx
-	middlewares.Auther
+	AuthRenderBase
 }
 
 func (d *DelRecord) Get() error {

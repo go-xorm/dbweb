@@ -6,15 +6,13 @@ import (
 	"github.com/tango-contrib/renders"
 	"github.com/tango-contrib/xsrf"
 
-	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 )
 
 type ChgPass struct {
-	RenderBase
+	AuthRenderBase
 
 	xsrf.Checker
-	middlewares.Auther
 	flash.Flash
 }
 
@@ -44,7 +42,7 @@ func (c *ChgPass) Post() {
 		return
 	}
 
-	user := c.Auther.LoginUser()
+	user := c.LoginUser()
 	if user != nil {
 		if models.EncodePassword(oldPass) != user.Password {
 			c.Flash.Set("oldError", i18n.Tr(c.CurLang(), "ori_password_not_correct"))

@@ -7,15 +7,12 @@ import (
 	"strings"
 
 	"github.com/go-xorm/core"
-	"github.com/go-xorm/dbweb/middlewares"
 	"github.com/go-xorm/dbweb/models"
 	"github.com/tango-contrib/renders"
 )
 
 type View struct {
-	RenderBase
-
-	middlewares.Auther
+	AuthRenderBase
 }
 
 func (c *View) Get() error {
