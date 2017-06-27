@@ -7,5 +7,5 @@ import (
 )
 
 func init() {
-	SupportDBs = append(SupportDBs, "sqlite3")
+	SupportDBs = append(SupportDBs, DB{"sqlite3", 0})
 }
