@@ -3,6 +3,7 @@ package actions
 import (
 	"errors"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -35,6 +36,11 @@ func (c *View) Get() error {
 	if err != nil {
 		return err
 	}
+
+	// Sort tables by name.
+	sort.Slice(tables, func(i, j int) bool {
+		return tables[i].Name < tables[j].Name
+	})
 
 	var records = make([][]*string, 0)
 	var columns = make([]*core.Column, 0)
