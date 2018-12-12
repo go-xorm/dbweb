@@ -47,6 +47,9 @@ func (c *Addb) Post() {
 
 	if engine.Driver == "sqlite3" {
 		engine.DataSource = host
+	} else if engine.Driver == "mssql" {
+		engine.DataSource = fmt.Sprintf("server=%s;port=%s;user id=%s;password=%s;database=%s",
+			host, port, username, passwd, dbname)
 	} else {
 		engine.DataSource = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8",
 			username, passwd, host, port, dbname)

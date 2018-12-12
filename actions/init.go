@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"fmt"
 	"sync"
 
 	_ "github.com/denisenkom/go-mssqldb"
@@ -35,6 +36,7 @@ func GetOrm(engine *models.Engine) *xorm.Engine {
 		var err error
 		o, err = xorm.NewEngine(engine.Driver, engine.DataSource)
 		if err != nil {
+			fmt.Println(err)
 			return nil
 		}
 
