@@ -55,9 +55,11 @@ func (c *View) Get() error {
 	var table *core.Table
 	var pkIdx int
 	var isExecute bool
+	var hasRowNum bool
 	var affected int64
 	var total int
 	var countSql string
+	var execSql string
 	var args = make([]interface{}, 0)
 
 	start, _ := strconv.Atoi(c.Req().FormValue("start"))
@@ -66,32 +68,53 @@ func (c *View) Get() error {
 		limit = 20
 	}
 	if sql != "" || tb != "" {
+		hasRowNum = false
 		if sql != "" {
 			isExecute = !strings.HasPrefix(strings.ToLower(sql), "select")
+			execSql = sql
 		} else if tb != "" {
-			countSql = "select count(*) from `" + tb + "`"
-			sql = fmt.Sprintf("select * from `"+tb+"` LIMIT %d OFFSET %d", limit, start)
-			//args = append(args, []interface{}{limit, start}...)
+			for _, tt := range tables {
+				if tb == tt.Name {
+					table = tt
+					break
+				}
+			}
+			countSql = "select count(*) from " + tb
+			if engine.Driver == "mssql" {
+				orderBy := ""
+				pkCols := table.PKColumns()
+				for _, pk := range pkCols {
+					if len(orderBy) > 0 {
+						orderBy += ", " + pk.Name
+					} else {
+						orderBy = pk.Name
+					}
+				}
+				hasRowNum = true
+				sql = "SELECT * FROM "+tb
+				execSql = fmt.Sprintf("SELECT TOP %d * FROM (SELECT ROW_NUMBER() OVER(ORDER BY "+orderBy+") AS RowNumber"+
+					", * FROM "+tb+") AS Res WHERE RowNumber > %d", limit, start)
+			} else {
+				execSql = fmt.Sprintf("select * from "+tb+" LIMIT %d OFFSET %d", limit, start)
+			}
 		} else {
 			return errors.New("unknow operation")
 		}
 
 		if isExecute {
-			res, err := o.Exec(sql)
+			res, err := o.Exec(execSql)
 			if err != nil {
 				return err
 			}
 			affected, _ = res.RowsAffected()
 		} else {
 			if len(countSql) > 0 {
-				err = o.DB().QueryRow(countSql).Scan(&total)
-				if err != nil {
+				if err = o.DB().QueryRow(countSql).Scan(&total); err != nil {
 					return err
 				}
-				fmt.Println("total records:", total)
 			}
 
-			rows, err := o.DB().Query(sql, args...)
+			rows, err := o.DB().Query(execSql, args...)
 			if err != nil {
 				return err
 			}
@@ -102,16 +125,10 @@ func (c *View) Get() error {
 				return err
 			}
 
-			if len(tb) > 0 {
-				for _, tt := range tables {
-					if tb == tt.Name {
-						table = tt
-						break
-					}
-				}
-				if table != nil {
-					for i, col := range cols {
-						c := table.GetColumn(col)
+			if table != nil {
+				for i, col := range cols {
+					c := table.GetColumn(col)
+					if c != nil {
 						if len(table.PKColumns()) == 1 && c.IsPrimaryKey {
 							pkIdx = i
 						}
@@ -127,10 +144,13 @@ func (c *View) Get() error {
 			}
 
 			for rows.Next() {
-				datas := make([]*string, len(columns))
+				datas := make([]*string, len(cols))
 				err = rows.ScanSlice(&datas)
 				if err != nil {
 					return err
+				}
+				if hasRowNum {
+					datas = datas[1:]
 				}
 				records = append(records, datas)
 			}
